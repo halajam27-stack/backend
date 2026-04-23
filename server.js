@@ -35,27 +35,27 @@ const uploadBook = multer({
   }
 });
 //  الاتصال بقاعدة البيانات (مثال)
+
+app.get("/", (req, res) => {
+  res.send("Backend is working 🚀");
+});
 const mysql = require("mysql2");
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "1234",
-  database: "SchoolDBN"
+  host: process.env.DB_HOST,
+  port: Number(process.env.DB_PORT),
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
 });
 
-db.connect(err => {
+db.connect((err) => {
   if (err) {
     console.log("DB ERROR:", err);
   } else {
     console.log("Database connected");
   }
 });
-
-app.get("/", (req, res) => {
-  res.send("Backend is working 🚀");
-});
-
 // Admin login
 app.post("/admin/login", (req, res) => {
   const { naturalId, password } = req.body;
